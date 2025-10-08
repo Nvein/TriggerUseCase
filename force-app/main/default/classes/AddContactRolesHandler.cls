@@ -86,11 +86,15 @@ public class AddContactRolesHandler {
                 }
             }
         }
-        System.debug('ocrInsertList size: '+ocrInsertList.size());
-        
-        if (!ocrInsertList.isEmpty()) {
-            insert ocrInsertList;
+        try{
+            if (!ocrInsertList.isEmpty()) {
+                insert ocrInsertList;
+            }
+        } catch(Exception e) {
+            System.debug('Error Message: '+e);
+            //Log error, handle
         }
+        
     }
     
     // Delete OCRs for given Opportunities
@@ -101,13 +105,18 @@ public class AddContactRolesHandler {
         for (Opportunity opp : oppList) {
             oppIdsToDelete.add(opp.Id);
         }
-        
-        List<OpportunityContactRole> ocrToDelete = [
-            SELECT Id FROM OpportunityContactRole WHERE OpportunityId IN :oppIdsToDelete
-        ];
-        
-        if (!ocrToDelete.isEmpty()) {
-            delete ocrToDelete;
+
+        try{
+            List<OpportunityContactRole> ocrToDelete = [SELECT Id FROM OpportunityContactRole WHERE OpportunityId IN :oppIdsToDelete];
+            
+            if (!ocrToDelete.isEmpty()) {
+                delete ocrToDelete;
+            }
+        } catch(Exception e) {
+            System.debug('Error Message: '+e);
+            //Log error, handle
         }
+        
+        
     }
 }

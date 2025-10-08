@@ -74,8 +74,6 @@ public class AddContactRolesHandler {
         
         List<OpportunityContactRole> ocrInsertList = new List<OpportunityContactRole>();
         for (Opportunity opp : oppList) {
-            List<OpportunityContactRole> ocrListInitial = [SELECT Id FROM OpportunityContactRole WHERE OpportunityId = :opp.Id];
-            System.debug('Size of ocrList initial: '+ ocrListInitial.size());
             Set<Id> contactIds = accountIdWithContactIds.get(opp.AccountId);
             if (contactIds != null) {
                 for (Id contactId : contactIds) {
